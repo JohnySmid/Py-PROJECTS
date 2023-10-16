@@ -23,6 +23,8 @@ services:
     restart: on-failure:3 # nedojde k restartu pokud je kontejner "unhealthy", maximalne 3 pokusy
     depends_on:
       - postgres
+    ports:
+      - 32800:8000
 
   postgres:
     image: postgres
