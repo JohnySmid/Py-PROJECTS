@@ -42,7 +42,8 @@ from gql_projects.GraphResolvers import (
 
 
 @strawberryA.federation.type(
-    keys=["id"], description="""Entity representing a project"""
+    keys=["id"], 
+    description="""Entity representing a project"""
 )
 class ProjectGQLModel:
     @classmethod
@@ -57,7 +58,7 @@ class ProjectGQLModel:
     def id(self) -> strawberryA.ID:
         return self.id
 
-    @strawberryA.field(description="""Name""")
+    @strawberryA.field(description="""Name of the project""")
     def name(self) -> str:
         return self.name
 
@@ -136,7 +137,7 @@ class ProjectTypeGQLModel:
     def name(self) -> str:
         return self.name
 
-    @strawberryA.field(description="""Name""")
+    @strawberryA.field(description="""Name en""")
     def name_en(self) -> str:
         return self.name_en
 
@@ -233,7 +234,7 @@ class FinanceTypeGQLModel:
     def name(self) -> str:
         return self.name
 
-    @strawberryA.field(description="""Name""")
+    @strawberryA.field(description="""Name en""")
     def name_en(self) -> str:
         return self.name_en
 
@@ -280,11 +281,11 @@ class MilestoneGQLModel:
     def name(self) -> str:
         return self.name
 
-    @strawberryA.field(description="""Date""")
+    @strawberryA.field(description="""Start date""")
     def startdate(self) -> datetime.date:
         return self.startdate
 
-    @strawberryA.field(description="""Date""")
+    @strawberryA.field(description="""End date""")
     def enddate(self) -> datetime.date:
         return self.enddate
 
@@ -323,7 +324,12 @@ class MilestoneGQLModel:
 from gql_projects.GraphResolvers import resolveProjectsForGroup
 
 
-@strawberryA.federation.type(extend=True, keys=["id"])
+@strawberryA.federation.type(
+    extend=True, 
+    keys=["id"], 
+    description="""Entity representing a Group"""
+    )
+
 class GroupGQLModel:
     id: strawberryA.ID = strawberryA.federation.field(external=True)
 
@@ -426,96 +432,95 @@ class Query:
 
 from typing import Optional
 
-@strawberryA.input
+@strawberryA.input(description="Definition of a project used for creation")
 class ProjectInsertGQLModel:
-    projecttype_id: strawberryA.ID
-    name: str
+    projecttype_id: strawberryA.ID = strawberryA.field(description="The ID of the project type")
+    name: str = strawberryA.field(description="Name/label of the project")
 
-    id: Optional[strawberryA.ID] = None
-    name: Optional[str] = "Project"
-    startdate: Optional[datetime.datetime] = datetime.datetime.now()
-    enddate: Optional[datetime.datetime] = datetime.datetime.now()
+    id: Optional[strawberryA.ID] = strawberryA.field(description="Primary key (UUID), could be client-generated", default=None)
+    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default="Project")
+    startdate: Optional[datetime.datetime] = strawberryA.field(description="Moment when the project starts (optional)", default_factory=lambda: datetime.datetime.now())
+    enddate: Optional[datetime.datetime] = strawberryA.field(description="Moment when the project ends (optional)", default_factory=lambda: datetime.datetime.now())
 
-    group_id: Optional[strawberryA.ID] = None
+    group_id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the group associated with the project (optional)", default=None)
 
-@strawberryA.input
+@strawberryA.input(description="Definition of a project used for update")
 class ProjectUpdateGQLModel:
-    lastchange: datetime.datetime
-    id: strawberryA.ID
-    name: Optional[str] = None
-    projecttype_id: Optional[strawberryA.ID] = None
-    startdate: Optional[datetime.datetime] = None
-    enddate: Optional[datetime.datetime] = None
-    group_id: Optional[strawberryA.ID] = None
+    lastchange: datetime.datetime = strawberryA.field(description="Timestamp of the last change")
+    id: strawberryA.ID = strawberryA.field(description="The ID of the project")
+    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default=None)
+    projecttype_id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the project type (optional)",default=None)
+    startdate: Optional[datetime.datetime] = strawberryA.field(description="Moment when the project starts (optional)", default_factory=lambda: datetime.datetime.now())
+    enddate: Optional[datetime.datetime] = strawberryA.field(description="Moment when the project ends (optional)", default_factory=lambda: datetime.datetime.now())
+    group_id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the group associated with the project (optional)", default=None)
     
-@strawberryA.type
+@strawberryA.type(description="Result of a user operation on a project")
 class ProjectResultGQLModel:
-    id: strawberryA.ID = None
-    msg: str = None
+    class ProjectResultGQLModel:
+        id: strawberryA.ID = strawberryA.field(description="The ID of the project", default=None)
+        msg: str = strawberryA.field(description="Result of the operation (OK/Fail)", default=None)
 
-    @strawberryA.field(description="""Result of user operation""")
+    @strawberryA.field(description="Returns the project")
     async def project(self, info: strawberryA.types.Info) -> Union[ProjectGQLModel, None]:
         result = await ProjectGQLModel.resolve_reference(info, self.id)
         return result
 
-@strawberryA.input
+@strawberryA.input(description="Definition of financial data used for insertion")
 class FinanceInsertGQLModel:
-    name: str
-    financetype_id: strawberryA.ID
-    project_id: strawberryA.ID
-    id: Optional[strawberryA.ID] = None
-    amount: Optional[float] = 0
+    name: str = strawberryA.field(description="Name of the financial data")
+    financetype_id: strawberryA.ID = strawberryA.field(description="The ID of the financial data type")
+    project_id: strawberryA.ID = strawberryA.field(description="The ID of the associated project")
+    id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the financial data (optional)",default=None)
+    amount: Optional[float] = strawberryA.field(description="The amount of financial data (optional)", default=0.0)
 
-@strawberryA.input
+@strawberryA.input(description="Definition of financial data used for update")
 class FinanceUpdateGQLModel:
-    lastchange: datetime.datetime
-    id: strawberryA.ID
-
-    name: Optional[str]
-    financetype_id: Optional[strawberryA.ID]
-    amount: Optional[float] = None
+    lastchange: datetime.datetime = strawberryA.field(description="Timestamp of the last change")
+    id: strawberryA.ID = strawberryA.field(description="The ID of the financial data")
+    name: Optional[str] = strawberryA.field(description="The name of the financial data (optional)")
+    financetype_id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the financial data type (optional)")
+    amount: Optional[float] = strawberryA.field(description="The amount of financial data (optional)", default=None)
     
-@strawberryA.type
+@strawberryA.type(description="Result of a financial data operation")
 class FinanceResultGQLModel:
-    id: strawberryA.ID = None
-    msg: str = None
+    id: strawberryA.ID = strawberryA.field(description="The ID of the financial data", default=None)
+    msg: str = strawberryA.field(description="Result of the operation (OK/Fail)", default=None)
 
-    @strawberryA.field(description="""Result of user operation""")
+    @strawberryA.field(description="Returns the financial data")
     async def finance(self, info: strawberryA.types.Info) -> Union[FinanceGQLModel, None]:
         result = await FinanceGQLModel.resolve_reference(info, self.id)
         return result
 
-@strawberryA.input
+@strawberryA.input(description="Definition of a milestone used for insertion")
 class MilestoneInsertGQLModel:
-    name: str
-    project_id: strawberryA.ID
-    startdate: Optional[datetime.datetime] = datetime.datetime.now()
-    enddate: Optional[datetime.datetime] = datetime.datetime.now() + datetime.timedelta(days=30)
-    id: Optional[strawberryA.ID] = None
+    name: str = strawberryA.field(description="Name of the milestone")
+    project_id: strawberryA.ID = strawberryA.field(description="The ID of the associated project")
+    startdate: Optional[datetime.datetime] = strawberryA.field(description="Start date of the milestone (optional)", default=datetime.datetime.now())
+    enddate: Optional[datetime.datetime] = strawberryA.field(description="End date of the milestone (optional)", default=datetime.datetime.now() + datetime.timedelta(days=30))
+    id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the milestone (optional)",default=None)
 
-@strawberryA.input
+@strawberryA.input(description="Definition of a milestone used for update")
 class MilestoneUpdateGQLModel:
-    lastchange: datetime.datetime
-    id: strawberryA.ID
-
-    name: Optional[str] = None
-    startdate: Optional[datetime.datetime] = None
-    enddate: Optional[datetime.datetime] = None
+    lastchange: datetime.datetime = strawberryA.field(description="Timestamp of the last change")
+    id: strawberryA.ID = strawberryA.field(description="The ID of the milestone")
+    name: Optional[str] = strawberryA.field(description="The name of the milestone (optional)",default=None)
+    startdate: Optional[datetime.datetime] = strawberryA.field(description="Start date of the milestone (optional)",default=None)
+    enddate: Optional[datetime.datetime] = strawberryA.field(description="End date of the milestone (optional)",default=None)
     
-@strawberryA.type
+@strawberryA.type(description="Result of a user operation on a milestone")
 class MilestoneResultGQLModel:
-    id: strawberryA.ID = None
-    msg: str = None
+    id: strawberryA.ID = strawberryA.field(description="The ID of the milestone", default=None)
+    msg: str = strawberryA.field(description="Result of the operation (OK/Fail)", default=None)
 
-    @strawberryA.field(description="""Result of user operation""")
+    @strawberryA.field(description="Returns the milestone")
     async def milestone(self, info: strawberryA.types.Info) -> Union[MilestoneGQLModel, None]:
         result = await MilestoneGQLModel.resolve_reference(info, self.id)
         return result
 
-@strawberryA.input
+@strawberryA.input(description="Definition of milestone link used for addition")
 class MilestoneLinkAddGQLModel:
-    previous_id: strawberryA.ID
-    next_id: strawberryA.ID
+    previous_id: strawberryA.ID = strawberryA.field(description="The ID of the previous milestone")
+    next_id: strawberryA.ID = strawberryA.field(description="The ID of the next milestone")
     
 @strawberryA.federation.type(extend=True)
 class Mutation:
