@@ -1,25 +1,26 @@
-from UUIDColumn import BaseModel, UUIDColumn, Column, DateTime, String, ForeignKey, sqlalchemy, relationship
-from UUIDKey import UUIDFKey
+from .UUIDColumn import UUIDColumn
+from .UUIDKey import UUIDFKey
+from . import BaseModel, Column, DateTime, String, ForeignKey, sqlalchemy, relationship
 
 class ProjectModel(BaseModel):
-    """
-    Represents a project in the system.
-    """
-    __tablename__ = "projects"
+     """
+     Represents a project in the system.
+     """
+     __tablename__ = "projects"
 
-    id = UUIDColumn()
+     id = UUIDColumn()
 
-    name = Column(String, comment="Name of the project")
-    startdate = Column(DateTime, comment="Start date of the project")
-    enddate = Column(DateTime, comment="End date of the project")
+     name = Column(String, comment="Name of the project")
+     startdate = Column(DateTime, comment="Start date of the project")
+     enddate = Column(DateTime, comment="End date of the project")
 
-    projecttype_id = Column(ForeignKey("projecttypes.id"), index=True, comment="Foreign key referencing the project type")
-    projecttype = relationship("ProjectTypeModel", back_populates="projects")
+     projecttype_id = Column(ForeignKey("projecttypes.id"), index=True, comment="Foreign key referencing the project type")
+     projecttype = relationship("ProjectTypeModel", back_populates="projects")
 
-    group_id = UUIDFKey(nullable=True)#Column(ForeignKey("groups.id"), index=True)
-    #group = relationship("groupModel")
+     group_id = UUIDFKey(nullable=True)#Column(ForeignKey("groups.id"), index=True)
+     #group = relationship("groupModel")
 
-    created = Column(DateTime, server_default=sqlalchemy.sql.func.now(), comment="Timestamp when the project was created")
-    lastchange = Column(DateTime, server_default=sqlalchemy.sql.func.now(), comment="Timestamp of the last change to the project")
-    createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
-    changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
+     created = Column(DateTime, server_default=sqlalchemy.sql.func.now(), comment="Timestamp when the project was created")
+     lastchange = Column(DateTime, server_default=sqlalchemy.sql.func.now(), comment="Timestamp of the last change to the project")
+     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
+     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)

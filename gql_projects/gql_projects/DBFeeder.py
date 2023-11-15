@@ -1,13 +1,22 @@
-from gql_projects.DBDefinitions import (
-    ProjectModel,
-    ProjectTypeModel,
-    ProjectCategoryModel,
-    FinanceModel,
-    FinanceTypeModel,
-    FinanceCategory,
-    MilestoneModel,
-    MilestoneLinkModel
-)
+# from gql_projects.DBDefinitions import (
+#     ProjectModel,
+#     ProjectTypeModel,
+#     ProjectCategoryModel,
+#     FinanceModel,
+#     FinanceTypeModel,
+#     FinanceCategory,
+#     MilestoneModel,
+#     MilestoneLinkModel
+# )
+
+from .DBDefinitions.FinanceCategory import FinanceCategory
+from .DBDefinitions.FinanceModel import FinanceModel
+from .DBDefinitions.FinanceTypeModel import FinanceTypeModel
+from .DBDefinitions.MilestoneLinkModel import MilestoneLinkModel
+from .DBDefinitions.MilestoneModel import MilestoneModel
+from .DBDefinitions.ProjectCategoryModel import ProjectCategoryModel
+from .DBDefinitions.ProjectTypeModel import ProjectTypeModel
+from .DBDefinitions.ProjectModel import ProjectModel
 
 import uuid
 import random

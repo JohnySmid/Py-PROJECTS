@@ -1,5 +1,6 @@
-from UUIDColumn import BaseModel, UUIDColumn, Column, DateTime, String, ForeignKey, sqlalchemy
-from UUIDKey import UUIDFKey
+from .UUIDColumn import UUIDColumn
+from .UUIDKey import UUIDFKey
+from . import BaseModel, Column, DateTime, String, ForeignKey, sqlalchemy, relationship
 
 class ProjectCategoryModel(BaseModel):
     """
