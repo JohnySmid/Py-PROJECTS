@@ -27,6 +27,8 @@ def newUuidAsString():
 
 # Tyto funkce slouží k definici sloupců pro unikátní identifikátory (UUID) v tabulkách. 
 # UUID je použito jako primární klíč pro některé tabulky. Funkce také umožňují určit, zda je sloupec cizího klíče (foreign key) a zda může být nullable.
+
+# samostane v souboru
 def UUIDColumn(name=None):
     if name is None:
         return Column(String, primary_key=True, unique=True, default=newUuidAsString)
@@ -35,6 +37,7 @@ def UUIDColumn(name=None):
             name, String, primary_key=True, unique=True, default=newUuidAsString
         )
 
+# samostane v souboru
 def UUIDFKey(*, ForeignKey=None, nullable=False):
     if ForeignKey is None:
         return Column(
@@ -52,7 +55,7 @@ def UUIDFKey(*, ForeignKey=None, nullable=False):
 # je-li treba, muzete definovat modely obsahujici jen id polozku, na ktere se budete odkazovat
 #
 
-
+# samostane v souboru
 class ProjectModel(BaseModel):
     """
     Represents a project in the system.
@@ -76,7 +79,7 @@ class ProjectModel(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
-
+# samostane v souboru
 class ProjectTypeModel(BaseModel):
     """
     Represents a type of project in the system.
@@ -95,7 +98,7 @@ class ProjectTypeModel(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
-
+# samostane v souboru
 class ProjectCategoryModel(BaseModel):
     """
     Represents a category for projects in the system.
@@ -111,6 +114,7 @@ class ProjectCategoryModel(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
+# samostane v souboru
 class FinanceModel(BaseModel):
     """
     Represents financial information related to projects in the system.
@@ -132,7 +136,7 @@ class FinanceModel(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
-
+# samostane v souboru
 class FinanceTypeModel(BaseModel):
     """
     Represents a type of financial information related to projects in the system.
@@ -150,6 +154,7 @@ class FinanceTypeModel(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
+# samostane v souboru
 class FinanceCategory(BaseModel):
     """
     Represents a category for financial information related to projects in the system.
@@ -165,7 +170,7 @@ class FinanceCategory(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
-
+# samostane v souboru
 class MilestoneModel(BaseModel):
     """
     Represents a milestone for projects in the system.
@@ -184,6 +189,7 @@ class MilestoneModel(BaseModel):
     createdby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
     changedby = UUIDFKey(nullable=True)#Column(ForeignKey("users.id"), index=True, nullable=True)
 
+# samostane v souboru
 class MilestoneLinkModel(BaseModel):
     """
     Represents a link between milestones for projects in the system.
