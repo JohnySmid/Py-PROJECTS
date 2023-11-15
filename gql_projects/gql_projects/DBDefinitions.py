@@ -1,4 +1,4 @@
-# definice SQLAlchemy modelů, které mapují tabulky v databázi, a funkce pro inicializaci a konfiguraci databázového spojení
+# definice SQLAlchemy modelů, které mapují tabulky v databázi, a funkce pro inicializaci a konfiguraci databázového spojení.
 import sqlalchemy
 import datetime
 
