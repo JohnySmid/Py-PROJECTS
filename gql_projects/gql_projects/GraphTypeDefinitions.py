@@ -372,6 +372,14 @@ class Query:
         async with withInfo(info) as session:
             result = await resolveProjectById(session, id)
             return result
+        
+    @strawberryA.field(description="Returns finance by its ID")
+    async def finance_by_id(
+        self, info: strawberryA.types.Info, id: strawberryA.ID
+    ) -> Union[FinanceGQLModel, None]:
+        async with withInfo(info) as session:
+            result = await resolveFinanceById(session, id)
+            return result
 
     @strawberryA.field(description="""Returns a list of project types""")
     async def project_type_page(
