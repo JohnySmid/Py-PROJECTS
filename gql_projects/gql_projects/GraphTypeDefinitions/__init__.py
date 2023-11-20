@@ -2,10 +2,6 @@ import strawberry as strawberryA
 import strawberry
 from .GroupGQLModel import GroupGQLModel
 
-def getLoaders(info):
-    return info.context['all']
-
-
 
 @strawberry.type(description="""Type for query root""")
 class Query:
@@ -73,6 +69,9 @@ class Mutation:
 
     from .MilestoneGQLModel import milestones_link_add
     milestones_link_add = milestones_link_add
+
+    # from .ProjectTypeGQLModel import project_insert
+    # project_insert = project_insert
 
 schema = strawberry.federation.Schema(
     query=Query,

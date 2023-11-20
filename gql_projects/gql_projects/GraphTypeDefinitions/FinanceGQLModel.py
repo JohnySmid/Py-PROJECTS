@@ -2,7 +2,7 @@ import strawberry as strawberryA
 import datetime
 from typing import List, Annotated, Optional, Union
 
-from . import getLoaders
+from gql_projects.utils.Dataloaders import getLoadersFromInfo
 
 from gql_projects.GraphResolvers import (
     resolveFinanceTypeById,
@@ -20,7 +20,7 @@ FinanceTypeGQLModel = Annotated ["FinanceTypeGQLModel",strawberryA.lazy(".Financ
 class FinanceGQLModel:
     @classmethod
     async def resolve_reference(cls, info: strawberryA.types.Info, id: strawberryA.ID):
-        loader = getLoaders(info).finances
+        loader = getLoadersFromInfo(info).finances
         result = await loader.load(id)
         if result is not None:
             result._type_definition = cls._type_definition  # little hack :)
@@ -117,7 +117,7 @@ class FinanceResultGQLModel:
 
 @strawberryA.mutation(description="Adds a new finance record.")
 async def finance_insert(self, info: strawberryA.types.Info, finance: FinanceInsertGQLModel) -> FinanceResultGQLModel:
-    loader = getLoaders(info).finances
+    loader = getLoadersFromInfo(info).finances
     row = await loader.insert(finance)
     result = FinanceResultGQLModel()
     result.msg = "ok"
@@ -126,7 +126,7 @@ async def finance_insert(self, info: strawberryA.types.Info, finance: FinanceIns
 
 @strawberryA.mutation(description="Update the finance record.")
 async def finance_update(self, info: strawberryA.types.Info, finance: FinanceUpdateGQLModel) -> FinanceResultGQLModel:
-    loader = getLoaders(info).finances
+    loader = getLoadersFromInfo(info).finances
     row = await loader.update(finance)
     result = FinanceResultGQLModel()
     result.msg = "ok"

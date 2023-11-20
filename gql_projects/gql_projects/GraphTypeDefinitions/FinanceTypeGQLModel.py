@@ -3,6 +3,7 @@ import typing
 from typing import List, Annotated
 from gql_projects.GraphResolvers import resolveFinancesForFinanceType, resolveFinanceTypeAll
 from contextlib import asynccontextmanager
+from gql_projects.utils.Dataloaders import getLoadersFromInfo
 
 @asynccontextmanager
 async def withInfo(info):
@@ -15,7 +16,6 @@ async def withInfo(info):
 
 FinanceGQLModel = Annotated ["FinanceGQLModel",strawberryA.lazy(".FinanceGQLModel")]
 
-from . import getLoaders
 
 @strawberryA.federation.type(
     keys=["id"], description="""Entity representing a finance type"""
@@ -23,7 +23,7 @@ from . import getLoaders
 class FinanceTypeGQLModel:
     @classmethod
     async def resolve_reference(cls, info: strawberryA.types.Info, id: strawberryA.ID):
-        loader = getLoaders(info).financetypes
+        loader = getLoadersFromInfo(info).financetypes
         result = await loader.load(id)
         if result is not None:
             result._type_definition = cls._type_definition  # little hack :)
@@ -44,7 +44,7 @@ class FinanceTypeGQLModel:
     @strawberryA.field(description="""List of finances, related to finance type""")
     async def finances(
         self, info: strawberryA.types.Info
-    ) -> typing.List["FinanceGQLModel"]:
+    ) -> List["FinanceGQLModel"]:
         async with withInfo(info) as session:
             result = await resolveFinancesForFinanceType(session, self.id)
             return result
