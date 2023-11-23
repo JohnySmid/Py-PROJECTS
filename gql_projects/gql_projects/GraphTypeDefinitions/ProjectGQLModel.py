@@ -72,8 +72,8 @@ class ProjectGQLModel:
     async def finances(
         self, info: strawberryA.types.Info
     ) -> typing.Optional["FinanceGQLModel"]:
-        loader = getLoadersFromInfo(info).project_by_id
-        result = await loader(project_id=self.id)
+        loader = getLoadersFromInfo(info).finances
+        result = await loader.filter_by(project_id=self.id)
         return result
 
     @strawberryA.field(description="""List of milestones, related to a project""")
@@ -86,7 +86,9 @@ class ProjectGQLModel:
 
     @strawberryA.field(description="""Group, related to a project""")
     async def group(self, info: strawberryA.types.Info) -> Optional ["GroupGQLModel"]:
-        return GroupGQLModel(id=self.group_id)
+        loader = getLoadersFromInfo(info).projects
+        result = await loader.filter_by(id=self.group_id)
+        return result
     
 ###########################################################################################################################
 #

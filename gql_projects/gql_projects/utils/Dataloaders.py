@@ -1,8 +1,8 @@
 # efektivní načítání dat z databáze, třída Loaders obsahuje vlastnosti pro načítací funkce pro jednotlivé modely, 
 # a tyto načítací funkce jsou optimalizovány pro efektivní práci s databází a snižují počet dotazů na databázi.
+import datetime
 from sqlalchemy import select
 from functools import cache
-import datetime
 
 
 from gql_projects.DBDefinitions import ProjectCategoryModel, ProjectTypeModel, ProjectModel, MilestoneModel, MilestoneLinkModel, FinanceCategory, FinanceTypeModel, FinanceModel
@@ -28,6 +28,7 @@ def update(destination, source=None, extraValues={}):
 
 def createLoader(asyncSessionMaker, DBModel):
     baseStatement = select(DBModel)
+    print(str(baseStatement)+"test")
     class Loader:
         async def load(self, id):
             async with asyncSessionMaker() as session:
@@ -123,11 +124,6 @@ def createLoaders(asyncSessionMaker):
         def milestonelinks(self):
             return createLoader(asyncSessionMaker, MilestoneLinkModel)
 
-        @property
-        @cache
-        def project_by_id(self):
-            return createLoader(asyncSessionMaker, ProjectModel)
-
     return Loaders()
 
 
@@ -137,9 +133,7 @@ def createLoadersContext(asyncSessionMaker):
     }
 
 def getLoadersFromInfo(info):
-    context = info.context
-    loaders = context["all"]
-    return loaders
+    return info.context['all']
 
 
 # from uoishelpers.dataloaders import createIdLoader, createFkeyLoader

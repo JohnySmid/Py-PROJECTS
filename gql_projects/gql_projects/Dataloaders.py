@@ -1,74 +1,74 @@
 # efektivní načítání dat z databáze, třída Loaders obsahuje vlastnosti pro načítací funkce pro jednotlivé modely, 
 # a tyto načítací funkce jsou optimalizovány pro efektivní práci s databází a snižují počet dotazů na databázi.
-from uoishelpers.dataloaders import createIdLoader, createFkeyLoader
-from sqlalchemy import select
-from functools import cache
+# from uoishelpers.dataloaders import createIdLoader, createFkeyLoader
+# from sqlalchemy import select
+# from functools import cache
 
-from gql_projects.DBDefinitions import (
-    ProjectCategoryModel,
-    ProjectTypeModel,
-    ProjectModel,
-    MilestoneModel,
-    MilestoneLinkModel,
-    FinanceCategory,
-    FinanceTypeModel,
-    FinanceModel
-)
-from uoishelpers.dataloaders import createIdLoader
+# from gql_projects.DBDefinitions import (
+#     ProjectCategoryModel,
+#     ProjectTypeModel,
+#     ProjectModel,
+#     MilestoneModel,
+#     MilestoneLinkModel,
+#     FinanceCategory,
+#     FinanceTypeModel,
+#     FinanceModel
+# )
+# from uoishelpers.dataloaders import createIdLoader
 
-def createLoader(asyncSessionMaker):
-    class Loaders:
-        @property
-        @cache
-        def project_by_id(self):
-            return createIdLoader(asyncSessionMaker, ProjectModel)
+# def createLoader(asyncSessionMaker):
+#     class Loaders:
+#         @property
+#         @cache
+#         def project_by_id(self):
+#             return createIdLoader(asyncSessionMaker, ProjectModel)
 
-        @property
-        @cache
-        def project_page(self):
-            return createIdLoader(asyncSessionMaker, ProjectModel)
+#         @property
+#         @cache
+#         def project_page(self):
+#             return createIdLoader(asyncSessionMaker, ProjectModel)
 
-        @property
-        @cache
-        def finance_by_id(self):
-            return createIdLoader(asyncSessionMaker, FinanceModel)
+#         @property
+#         @cache
+#         def finance_by_id(self):
+#             return createIdLoader(asyncSessionMaker, FinanceModel)
 
-        @property
-        @cache
-        def project_type_page(self):
-            return createIdLoader(asyncSessionMaker, ProjectTypeModel)
+#         @property
+#         @cache
+#         def project_type_page(self):
+#             return createIdLoader(asyncSessionMaker, ProjectTypeModel)
 
-        @property
-        @cache
-        def finance_page(self):
-            return createIdLoader(asyncSessionMaker, FinanceModel)
+#         @property
+#         @cache
+#         def finance_page(self):
+#             return createIdLoader(asyncSessionMaker, FinanceModel)
 
-        @property
-        @cache
-        def finance_type_page(self):
-            return createIdLoader(asyncSessionMaker, FinanceTypeModel, foreignKeyName="facility_id")
+#         @property
+#         @cache
+#         def finance_type_page(self):
+#             return createIdLoader(asyncSessionMaker, FinanceTypeModel, foreignKeyName="facility_id")
 
-        @property
-        @cache
-        def milestone_page(self):
-            return createIdLoader(asyncSessionMaker, MilestoneModel)
+#         @property
+#         @cache
+#         def milestone_page(self):
+#             return createIdLoader(asyncSessionMaker, MilestoneModel)
 
-        @property
-        @cache
-        def project_by_group(self):
-            return createIdLoader(asyncSessionMaker, ProjectModel)
+#         @property
+#         @cache
+#         def project_by_group(self):
+#             return createIdLoader(asyncSessionMaker, ProjectModel)
 
-        @property
-        @cache
-        def project_category(self):
-            return createIdLoader(asyncSessionMaker, ProjectCategoryModel)
+#         @property
+#         @cache
+#         def project_category(self):
+#             return createIdLoader(asyncSessionMaker, ProjectCategoryModel)
 
-        @property
-        @cache
-        def finance_category(self):
-            return createIdLoader(asyncSessionMaker, FinanceCategory)
+#         @property
+#         @cache
+#         def finance_category(self):
+#             return createIdLoader(asyncSessionMaker, FinanceCategory)
 
-    return Loaders()
+#     return Loaders()
 
 
 # from gql_projects.DBDefinitions import (

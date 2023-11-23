@@ -1,6 +1,7 @@
-from .UUIDColumn import UUIDColumn
-from .UUIDKey import UUIDFKey
-from . import BaseModel, Column, DateTime, String, ForeignKey, sqlalchemy
+from .UUIDColumn import UUIDColumn, UUIDFKey
+from sqlalchemy import Column, DateTime, String, ForeignKey
+from .BaseModel import BaseModel
+import sqlalchemy
 
 class FinanceCategory(BaseModel):
     """

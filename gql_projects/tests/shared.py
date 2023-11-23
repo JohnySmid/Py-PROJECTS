@@ -48,7 +48,7 @@ async def prepare_demodata(async_session_maker):
     )
 
 
-from gql_projects.Dataloaders import createLoaders
+from gql_projects.utils.Dataloaders import createLoaders
 
 
 async def createContext(asyncSessionMaker):
