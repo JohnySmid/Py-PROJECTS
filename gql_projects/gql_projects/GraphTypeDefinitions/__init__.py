@@ -70,8 +70,11 @@ class Mutation:
     from .MilestoneGQLModel import milestones_link_add
     milestones_link_add = milestones_link_add
 
-    # from .ProjectTypeGQLModel import project_insert
-    # project_insert = project_insert
+    from .ProjectTypeGQLModel import projectType_insert
+    projectType_insert = projectType_insert
+
+    from .FinanceTypeGQLModel import financeType_insert
+    financeType_insert = financeType_insert
 
 schema = strawberry.federation.Schema(
     query=Query,

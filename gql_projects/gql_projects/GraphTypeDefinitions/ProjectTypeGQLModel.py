@@ -74,29 +74,29 @@ async def project_type_page(
 #
 ###########################################################################################################################
 
-# @strawberryA.input(description="Definition of a project used for creation")
-# class ProjectTypeInsertGQLModel:
-#     projecttype_id: strawberryA.ID = strawberryA.field(description="")
-#     name: str = strawberryA.field(description="")
+@strawberryA.input(description="Definition of a project used for creation")
+class ProjectTypeInsertGQLModel:
+    projecttype_id: strawberryA.ID = strawberryA.field(description="")
+    name: str = strawberryA.field(description="")
 
-#     id: Optional[strawberryA.ID] = strawberryA.field(description="Primary key (UUID), could be client-generated", default=None)
-#     name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default="Project")
+    id: Optional[strawberryA.ID] = strawberryA.field(description="Primary key (UUID), could be client-generated", default=None)
+    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default="Project")
 
-# @strawberryA.type(description="Result of a mutation over Project")
-# class ProjectTypeResultGQLModel:
-#     id: strawberryA.ID = strawberryA.field(description="The ID of the project", default=None)
-#     msg: str = strawberryA.field(description="Result of the operation (OK/Fail)", default=None)
+@strawberryA.type(description="Result of a mutation over Project")
+class ProjectTypeResultGQLModel:
+    id: strawberryA.ID = strawberryA.field(description="The ID of the project", default=None)
+    msg: str = strawberryA.field(description="Result of the operation (OK/Fail)", default=None)
 
-#     @strawberryA.field(description="Returns the project")
-#     async def project(self, info: strawberryA.types.Info) -> Union[ProjectTypeGQLModel, None]:
-#         result = await ProjectTypeGQLModel.resolve_reference(info, self.id)
-#         return result
+    @strawberryA.field(description="Returns the project")
+    async def project(self, info: strawberryA.types.Info) -> Union[ProjectTypeGQLModel, None]:
+        result = await ProjectTypeGQLModel.resolve_reference(info, self.id)
+        return result
 
-# @strawberryA.mutation(description="Adds a new project.")
-# async def project_insert(self, info: strawberryA.types.Info, project: ProjectTypeInsertGQLModel) -> ProjectTypeResultGQLModel:
-#     loader = getLoaders(info).projects
-#     row = await loader.insert(project)
-#     result = ProjectTypeResultGQLModel()
-#     result.msg = "ok"
-#     result.id = row.id
-#     return result
+@strawberryA.mutation(description="Adds a new project.")
+async def projectType_insert(self, info: strawberryA.types.Info, project: ProjectTypeInsertGQLModel) -> ProjectTypeResultGQLModel:
+    loader = getLoadersFromInfo(info).projecttypes
+    row = await loader.insert(project)
+    result = ProjectTypeResultGQLModel()
+    result.msg = "ok"
+    result.id = row.id
+    return result

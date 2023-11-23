@@ -1,6 +1,6 @@
 import strawberry as strawberryA
 import typing
-from typing import List, Annotated
+from typing import List, Annotated, Optional, Union
 from gql_projects.GraphResolvers import resolveFinancesForFinanceType, resolveFinanceTypeAll
 from contextlib import asynccontextmanager
 from gql_projects.utils.Dataloaders import getLoadersFromInfo
@@ -61,3 +61,32 @@ async def finance_type_page(
     async with withInfo(info) as session:
         result = await resolveFinanceTypeAll(session, skip, limit)
         return result
+    
+
+
+@strawberryA.input(description="Definition of a project used for creation")
+class FinanceTypeInsertGQLModel:
+    financetype_id: strawberryA.ID = strawberryA.field(description="")
+    name: str = strawberryA.field(description="")
+
+    id: Optional[strawberryA.ID] = strawberryA.field(description="Primary key (UUID), could be client-generated", default=None)
+    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default="Project")
+
+@strawberryA.type(description="Result of a mutation over Project")
+class FinanceTypeResultGQLModel:
+    id: strawberryA.ID = strawberryA.field(description="The ID of the project", default=None)
+    msg: str = strawberryA.field(description="Result of the operation (OK/Fail)", default=None)
+
+    @strawberryA.field(description="Returns the project")
+    async def finance(self, info: strawberryA.types.Info) -> Union[FinanceTypeGQLModel, None]:
+        result = await FinanceTypeGQLModel.resolve_reference(info, self.id)
+        return result
+
+@strawberryA.mutation(description="Adds a new project.")
+async def financeType_insert(self, info: strawberryA.types.Info, finance: FinanceTypeInsertGQLModel) -> FinanceTypeResultGQLModel:
+    loader = getLoadersFromInfo(info).financetypes
+    row = await loader.insert(finance)
+    result = FinanceTypeResultGQLModel()
+    result.msg = "ok"
+    result.id = row.id
+    return result
