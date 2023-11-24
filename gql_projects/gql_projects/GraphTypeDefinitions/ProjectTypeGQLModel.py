@@ -1,6 +1,5 @@
 import uuid
 import strawberry as strawberryA
-import typing
 from typing import List, Annotated, Optional, Union
 from gql_projects.utils.Dataloaders import getLoadersFromInfo
 from contextlib import asynccontextmanager

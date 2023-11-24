@@ -1,5 +1,4 @@
 import strawberry as strawberryA
-import typing
 from typing import List, Annotated, Optional, Union
 from gql_projects.GraphResolvers import resolveFinancesForFinanceType, resolveFinanceTypeAll
 from contextlib import asynccontextmanager

@@ -58,12 +58,12 @@ class ProjectGQLModel:
         return self.lastchange
 
     @strawberryA.field(description="""Team related to the project""")
-    async def team(self) -> typing.Union["GroupGQLModel", None]:
+    async def team(self) -> Union["GroupGQLModel", None]:
         result = await GroupGQLModel.resolve_reference(self.group_id)
         return result
 
     @strawberryA.field(description="""Project type of project""")
-    async def project_type(self, info: strawberryA.types.Info) -> typing.Optional ["ProjectTypeGQLModel"]:
+    async def project_type(self, info: strawberryA.types.Info) -> Optional ["ProjectTypeGQLModel"]:
         from .ProjectTypeGQLModel import ProjectTypeGQLModel  # Import here to avoid circular dependency
         result = await ProjectTypeGQLModel.resolve_reference(info, self.projecttype_id)
         return result
@@ -71,9 +71,9 @@ class ProjectGQLModel:
     @strawberryA.field(description="""List of finances, related to a project""")
     async def finances(
         self, info: strawberryA.types.Info
-    ) -> typing.Optional["FinanceGQLModel"]:
+    ) -> Optional["FinanceGQLModel"]:
         loader = getLoadersFromInfo(info).finances
-        result = await loader.filter_by(project_id=self.id)
+        result = await loader.filter_by(id=self.id)
         return result
 
     @strawberryA.field(description="""List of milestones, related to a project""")

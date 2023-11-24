@@ -71,7 +71,7 @@ resolveUpdateProjectType = createUpdateResolver(ProjectTypeModel)
 resolveInsertProjectType = createInsertResolver(ProjectTypeModel)
 
 resolveProjectsForProjectType = create1NGetter(
-    ProjectModel, foreignKeyName="projectType_id"
+    ProjectModel, foreignKeyName="projecttype_id"
 )
 
 # Finance resolvers
@@ -87,7 +87,7 @@ resolveUpdateFinanceType = createUpdateResolver(FinanceTypeModel)
 resolveInsertFinanceType = createInsertResolver(FinanceTypeModel)
 
 resolveFinancesForFinanceType = create1NGetter(
-    FinanceModel, foreignKeyName="financeType_id"
+    FinanceModel, foreignKeyName="financetype_id"
 )
 
 # Milestone resolvers
