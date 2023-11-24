@@ -99,7 +99,6 @@ class FinanceInsertGQLModel:
 
 @strawberryA.input(description="Definition of financial data used for update")
 class FinanceUpdateGQLModel:
-    lastchange: datetime.datetime = strawberryA.field(description="Timestamp of the last change")
     id: strawberryA.ID = strawberryA.field(description="The ID of the financial data")
     name: Optional[str] = strawberryA.field(description="The name of the financial data (optional)")
     financetype_id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the financial data type (optional)")

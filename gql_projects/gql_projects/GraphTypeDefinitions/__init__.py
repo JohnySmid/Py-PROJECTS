@@ -76,6 +76,12 @@ class Mutation:
     from .FinanceTypeGQLModel import financeType_insert
     financeType_insert = financeType_insert
 
+    from .FinanceTypeGQLModel import financeType_update
+    financeType_update = financeType_update
+
+    from .ProjectTypeGQLModel import projectType_update
+    projectType_update = projectType_update
+
 schema = strawberry.federation.Schema(
     query=Query,
     mutation=Mutation

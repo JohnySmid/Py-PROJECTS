@@ -62,15 +62,28 @@ async def finance_type_page(
         result = await resolveFinanceTypeAll(session, skip, limit)
         return result
     
-
+###########################################################################################################################
+#
+#
+# Mutations
+#
+#
+###########################################################################################################################
 
 @strawberryA.input(description="Definition of a project used for creation")
 class FinanceTypeInsertGQLModel:
     financetype_id: strawberryA.ID = strawberryA.field(description="")
     name: str = strawberryA.field(description="")
-
+    name_en: Optional[str] = strawberryA.field(description="The name of the financial data (optional)")
+    
     id: Optional[strawberryA.ID] = strawberryA.field(description="Primary key (UUID), could be client-generated", default=None)
-    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default="Project")
+
+@strawberryA.input(description="Definition of financial data used for update")
+class FinanceTypeUpdateGQLModel:
+    id: strawberryA.ID = strawberryA.field(description="The ID of the financial data")
+    name: Optional[str] = strawberryA.field(description="The name of the financial data (optional)")
+    name_en: Optional[str] = strawberryA.field(description="The name of the financial data (optional)")
+
 
 @strawberryA.type(description="Result of a mutation over Project")
 class FinanceTypeResultGQLModel:
@@ -89,4 +102,15 @@ async def financeType_insert(self, info: strawberryA.types.Info, finance: Financ
     result = FinanceTypeResultGQLModel()
     result.msg = "ok"
     result.id = row.id
+    return result
+
+@strawberryA.mutation(description="Update the finance record.")
+async def financeType_update(self, info: strawberryA.types.Info, finance: FinanceTypeUpdateGQLModel) -> FinanceTypeResultGQLModel:
+    loader = getLoadersFromInfo(info).financetypes
+    row = await loader.update(finance)
+    result = FinanceTypeResultGQLModel()
+    result.msg = "ok"
+    result.id = finance.id
+    if row is None:
+        result.msg = "fail"  
     return result

@@ -78,9 +78,16 @@ async def project_type_page(
 class ProjectTypeInsertGQLModel:
     projecttype_id: strawberryA.ID = strawberryA.field(description="")
     name: str = strawberryA.field(description="")
+    name_en: str = strawberryA.field(description="")
 
     id: Optional[strawberryA.ID] = strawberryA.field(description="Primary key (UUID), could be client-generated", default=None)
-    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default="Project")
+    
+
+@strawberryA.input(description="Definition of a project used for update")
+class ProjectTypeUpdateGQLModel:
+    id: strawberryA.ID = strawberryA.field(description="The ID of the project")
+    name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default=None)
+    name_en: Optional[str] = strawberryA.field(description="The name of the project (optional)", default=None)
 
 @strawberryA.type(description="Result of a mutation over Project")
 class ProjectTypeResultGQLModel:
@@ -99,4 +106,15 @@ async def projectType_insert(self, info: strawberryA.types.Info, project: Projec
     result = ProjectTypeResultGQLModel()
     result.msg = "ok"
     result.id = row.id
+    return result
+
+@strawberryA.mutation(description="Update the project.")
+async def projectType_update(self, info: strawberryA.types.Info, project: ProjectTypeUpdateGQLModel) -> ProjectTypeResultGQLModel:
+    loader = getLoadersFromInfo(info).projecttypes
+    row = await loader.update(project)
+    result = ProjectTypeResultGQLModel()
+    result.msg = "ok"
+    result.id = project.id
+    if row is None:
+        result.msg = "fail"
     return result

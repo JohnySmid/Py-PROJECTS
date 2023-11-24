@@ -9,14 +9,7 @@
 #     MilestoneLinkModel
 # )
 
-from .DBDefinitions.FinanceCategory import FinanceCategory
-from .DBDefinitions.FinanceModel import FinanceModel
-from .DBDefinitions.FinanceTypeModel import FinanceTypeModel
-from .DBDefinitions.MilestoneLinkModel import MilestoneLinkModel
-from .DBDefinitions.MilestoneModel import MilestoneModel
-from .DBDefinitions.ProjectCategoryModel import ProjectCategoryModel
-from .DBDefinitions.ProjectTypeModel import ProjectTypeModel
-from .DBDefinitions.ProjectModel import ProjectModel
+from gql_projects.DBDefinitions import ProjectCategoryModel, ProjectTypeModel, ProjectModel, MilestoneModel, MilestoneLinkModel, FinanceCategory, FinanceTypeModel, FinanceModel
 
 import uuid
 import random

@@ -35,7 +35,7 @@ def singleCall(asyncFunc):
 
     return result
 
-from gql_projects.DBFeeder import initDB
+from gql_projects.utils.DBFeeder import initDB
 
 @singleCall
 async def RunOnceAndReturnSessionMaker():

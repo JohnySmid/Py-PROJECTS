@@ -2,7 +2,7 @@ from typing import List, Union, Annotated, Optional
 import strawberry as strawberryA
 import datetime
 import typing
-from gql_projects.DBFeeder import randomDataStructure
+from gql_projects.utils.DBFeeder import randomDataStructure
 from gql_projects.utils.Dataloaders import getLoadersFromInfo
 
 from gql_projects.GraphResolvers import (
@@ -162,7 +162,6 @@ class ProjectInsertGQLModel:
 
 @strawberryA.input(description="Definition of a project used for update")
 class ProjectUpdateGQLModel:
-    lastchange: datetime.datetime = strawberryA.field(description="Timestamp of the last change")
     id: strawberryA.ID = strawberryA.field(description="The ID of the project")
     name: Optional[str] = strawberryA.field(description="The name of the project (optional)", default=None)
     projecttype_id: Optional[strawberryA.ID] = strawberryA.field(description="The ID of the project type (optional)",default=None)

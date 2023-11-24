@@ -65,12 +65,12 @@ def createLoader(asyncSessionMaker, DBModel):
 
                 dochecks = hasattr(rowToUpdate, 'lastchange')             
                 checkpassed = True  
-                if (dochecks):
-                    if (entity.lastchange != rowToUpdate.lastchange):
-                        result = None
-                        checkpassed = False                        
-                    else:
-                        entity.lastchange = datetime.datetime.now()
+                # if (dochecks):
+                #     if (entity.lastchange != rowToUpdate.lastchange):
+                #         result = None
+                #         checkpassed = False                        
+                #     else:
+                #         entity.lastchange = datetime.datetime.now()
                 if checkpassed:
                     rowToUpdate = update(rowToUpdate, entity, extraValues=extraValues)
                     await session.commit()
