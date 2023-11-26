@@ -8,11 +8,17 @@ sys.path.append("../gql_projects")
 import pytest
 
 # from ..uoishelpers.uuid import UUIDColumn
+from gql_projects.DBDefinitions.FinanceModel import FinanceModel
+from gql_projects.DBDefinitions.BaseModel import BaseModel
+from gql_projects.DBDefinitions.ProjectModel import ProjectModel
+from gql_projects.DBDefinitions.ProjectTypeModel import ProjectTypeModel
+from gql_projects.DBDefinitions.ProjectCategoryModel import ProjectCategoryModel
+from gql_projects.DBDefinitions.FinanceTypeModel import FinanceTypeModel
+from gql_projects.DBDefinitions.FinanceCategory import FinanceCategory
+from gql_projects.DBDefinitions.MilestoneLinkModel import MilestoneLinkModel
+from gql_projects.DBDefinitions.MilestoneModel import MilestoneModel
 
-from gql_projects.DBDefinitions import BaseModel
-from gql_projects.DBDefinitions import ProjectModel, ProjectTypeModel, ProjectCategoryModel
-from gql_projects.DBDefinitions import FinanceModel, FinanceTypeModel, FinanceCategory
-from gql_projects.DBDefinitions import MilestoneModel, MilestoneLinkModel
+
 
 async def prepare_in_memory_sqllite():
     from sqlalchemy.ext.asyncio import create_async_engine

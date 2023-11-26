@@ -6,7 +6,7 @@ import asyncio
 sys.path.append("../gql_projects")
 
 import pytest
-
+from gql_projects.utils.DBFeeder import initDB
 # from ..uoishelpers.uuid import UUIDColumn
 
 from gql_projects.DBDefinitions import BaseModel
@@ -54,3 +54,13 @@ async def test_table_start_engine():
     )
 
     assert async_session_maker is not None
+
+@pytest.mark.asyncio
+async def test_initDB():
+    connectionString = "sqlite+aiosqlite:///:memory:"
+    async_session_maker = await startEngine(
+        connectionString, makeDrop=True, makeUp=True
+    )
+
+    assert async_session_maker is not None
+    await initDB(async_session_maker)
